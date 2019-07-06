@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/modules"
+        android:icon="@drawable/ic_server_rack_with_three_levels"
+        android:title="Modules" />
+
+
+    <item
+        android:id="@+id/progress"
+        android:icon="@drawable/ic_progress_chart"
+        android:title="Progress" />
+
+
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_man_user"
+        android:title="Profile" />
+</menu>
