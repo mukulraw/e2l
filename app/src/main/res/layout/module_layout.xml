@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.ogaclejapan.smarttablayout.SmartTabLayout
+        android:id="@+id/tabLayout2"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        app:stl_clickable="true"
+        app:stl_defaultTabTextAllCaps="true"
+        app:stl_defaultTabTextHorizontalPadding="16dp"
+        app:stl_defaultTabTextMinWidth="0dp"
+        app:stl_defaultTabTextSize="12sp"
+        app:stl_distributeEvenly="false"
+        app:stl_dividerThickness="0dp"
+        app:stl_defaultTabTextColor="#ffffff"
+        app:stl_indicatorColor="@color/colorAccent"
+        app:stl_indicatorCornerRadius="35dp"
+        app:stl_indicatorGravity="center"
+        app:stl_indicatorAlwaysInCenter="true"
+        app:stl_indicatorInFront="true"
+        app:stl_indicatorInterpolation="linear"
+        app:stl_indicatorThickness="35dp"
+        app:stl_indicatorWidth="auto"
+        app:stl_indicatorWithoutPadding="false"
+        app:stl_titleOffset="24dp"
+        app:stl_underlineThickness="0dp"
+        app:tabGravity="center"
+        app:tabMode="fixed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.mrtecks.school.CustomViewPager
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/pager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout2" />
+
+    <ImageView
+        android:id="@+id/imageButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:visibility="gone"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/white_circle"
+        android:src="@drawable/ic_arrow_back_button"
+        app:layout_constraintBottom_toTopOf="@+id/pager"
+        app:layout_constraintStart_toStartOf="@+id/tabLayout2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageButton3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:visibility="gone"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/white_circle"
+        android:src="@drawable/ic_right_arrow"
+        app:layout_constraintBottom_toTopOf="@+id/pager"
+        app:layout_constraintEnd_toEndOf="@+id/tabLayout2"
+        app:layout_constraintTop_toTopOf="@+id/tabLayout2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
