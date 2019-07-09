@@ -6,13 +6,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottom;
+    TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottom = findViewById(R.id.bottomNavigationView);
+        title = findViewById(R.id.imageView4);
+
+
+        title.setText(Html.fromHtml("e<sub>2</sub>l"));
+
 
         bottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -38,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.progress:
                         FragmentManager fm2 = getSupportFragmentManager();
                         FragmentTransaction ft2 = fm2.beginTransaction();
-                        module test2 = new module();
+                        progress test2 = new progress();
                         ft2.replace(R.id.replace, test2);
                         ft2.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                         //ft.addToBackStack(null);
@@ -48,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.profile:
                         FragmentManager fm3 = getSupportFragmentManager();
                         FragmentTransaction ft3 = fm3.beginTransaction();
-                        module test3 = new module();
+                        profile test3 = new profile();
                         ft3.replace(R.id.replace, test3);
                         ft3.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                         //ft.addToBackStack(null);

@@ -121,14 +121,24 @@ public class module extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            modulepage frag = new modulepage();
-            if (position == 9) {
-                frag.setData(pager, position);
-            } else {
-                frag.setData(pager, position);
+
+            if (position == 0)
+            {
+                modulepage frag = new modulepage();
+                if (position == 9) {
+                    frag.setData(pager, position);
+                } else {
+                    frag.setData(pager, position);
+                }
+
+                return frag;
+            }
+            else
+            {
+                return new lockModule();
             }
 
-            return frag;
+
         }
 
         @Override

@@ -27,13 +27,13 @@ public class modulepage extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.module_page_layout , container , false);
+        View view = inflater.inflate(R.layout.module_page_layout, container, false);
 
         tabs = view.findViewById(R.id.tabLayout2);
         pager = view.findViewById(R.id.pager);
 
 
-        pager.setPagingEnabled(false);
+        pager.setPagingEnabled(true);
 
         PagerAdapter adapter = new PagerAdapter(getChildFragmentManager());
         pager.setAdapter(adapter);
@@ -44,13 +44,35 @@ public class modulepage extends Fragment {
         return view;
     }
 
-    class PagerAdapter extends FragmentStatePagerAdapter
-    {
+    class PagerAdapter extends FragmentStatePagerAdapter {
+
+        String[] name = {
+                "v",
+                "v",
+                "f",
+                "f",
+                "m",
+                "m",
+                "v",
+                "v",
+                "f",
+                "f",
+                "m",
+                "m",
+                "v",
+                "v",
+                "f",
+                "f",
+                "m",
+                "m",
+                "v",
+                "f"
+        };
 
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
-            return String.valueOf(position + 1);
+            return "Topic " + String.valueOf(position + 1);
         }
 
         PagerAdapter(FragmentManager fm) {
@@ -59,22 +81,20 @@ public class modulepage extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            page frag = new page();
-            if (position == 3)
-            {
-                frag.setData(pager , true ,  position);
-            }
-            else
-            {
-                frag.setData(pager , false , position);
+
+            if (name[position].equals("v")) {
+                return new videoTopic();
+            } else if (name[position].equals("f")) {
+                return new fthTopic();
+            } else {
+                return new mcqTopic();
             }
 
-            return frag;
         }
 
         @Override
         public int getCount() {
-            return 10;
+            return 20;
         }
     }
 
