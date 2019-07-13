@@ -34,6 +34,10 @@ public class Survey extends AppCompatActivity {
 
         tabs.setViewPager(pager);
 
+
+
+
+
     }
 
     class PagerAdapter extends FragmentStatePagerAdapter
@@ -45,7 +49,7 @@ public class Survey extends AppCompatActivity {
             return String.valueOf(position + 1);
         }
 
-        public PagerAdapter(FragmentManager fm) {
+        PagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

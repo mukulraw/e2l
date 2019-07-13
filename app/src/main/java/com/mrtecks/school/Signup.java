@@ -169,7 +169,7 @@ public class Signup extends AppCompatActivity {
                                                 @Override
                                                 public void onResponse(Call<registerBean> call, Response<registerBean> response) {
 
-                                                    if (response.body().getStatus() == "1")
+                                                    if (response.body().getStatus().equals("1"))
                                                     {
 
                                                         Toast.makeText(Signup.this, response.body().getMessage() , Toast.LENGTH_SHORT).show();

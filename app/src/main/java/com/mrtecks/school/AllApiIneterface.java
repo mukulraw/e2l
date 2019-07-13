@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.mrtecks.school.classPOJO.classBean;
 import com.mrtecks.school.regiterPOJO.registerBean;
 import com.mrtecks.school.schoolPOJO.schoolBean;
+import com.mrtecks.school.surveyPOJO.surveyBean;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -28,7 +29,7 @@ public interface AllApiIneterface {
     );
 
     @Multipart
-    @POST("e2l/api/post_job.php")
+    @POST("e2l/api/register.php")
     Call<registerBean> register(
             @Part("name") String name,
             @Part("contact") String contact,
@@ -38,6 +39,18 @@ public interface AllApiIneterface {
             @Part("password") String password,
             @Part MultipartBody.Part file1
     );
+
+    @Multipart
+    @POST("e2l/api/login.php")
+    Call<registerBean> login(
+            @Part("contact") String contact,
+            @Part("password") String password
+    );
+
+    @NonNull
+    @GET("e2l/api/getSurvey.php")
+    Call<surveyBean> getSurvey();
+
 
     /*@Multipart
     @POST("roshni/api/login.php")
