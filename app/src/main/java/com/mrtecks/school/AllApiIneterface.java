@@ -51,6 +51,13 @@ public interface AllApiIneterface {
     @GET("e2l/api/getSurvey.php")
     Call<surveyBean> getSurvey();
 
+    @Multipart
+    @POST("e2l/api/submit_survey.php")
+    Call<registerBean> submitSurvey(
+            @Part("user_id") String user_id,
+            @Part("qid") String qid,
+            @Part("answer") String answer
+    );
 
     /*@Multipart
     @POST("roshni/api/login.php")
