@@ -21,7 +21,7 @@
         app:stl_indicatorColor="#cdcdcd"
         app:stl_indicatorCornerRadius="35dp"
         app:stl_indicatorGravity="center"
-        app:stl_indicatorAlwaysInCenter="true"
+        app:stl_indicatorAlwaysInCenter="false"
         app:stl_indicatorInFront="true"
         app:stl_indicatorInterpolation="linear"
         app:stl_indicatorThickness="35dp"

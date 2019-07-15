@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         title = findViewById(R.id.imageView4);
 
 
-        title.setText(Html.fromHtml("e<sub>2</sub>l"));
+        title.setText(Html.fromHtml("e<sup>2</sup>l"));
 
 
         bottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
