@@ -18,10 +18,12 @@ public class modulepage extends Fragment {
     CustomViewPager pager;
     SmartTabLayout tabs;
     int position;
+    String mid;
 
-    public void setData(CustomViewPager pager, int position) {
+    public void setData(CustomViewPager pager, int position , String mid) {
         this.pager = pager;
         this.position = position;
+        this.mid = mid;
     }
 
     @Nullable

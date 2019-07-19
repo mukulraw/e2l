@@ -3,9 +3,11 @@ package com.mrtecks.school;
 import androidx.annotation.NonNull;
 
 import com.mrtecks.school.classPOJO.classBean;
+import com.mrtecks.school.modulePOJO.moduleBean;
 import com.mrtecks.school.regiterPOJO.registerBean;
 import com.mrtecks.school.schoolPOJO.schoolBean;
 import com.mrtecks.school.surveyPOJO.surveyBean;
+import com.mrtecks.school.topicsPOJO.topicBean;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -45,6 +47,19 @@ public interface AllApiIneterface {
     Call<registerBean> login(
             @Part("contact") String contact,
             @Part("password") String password
+    );
+
+    @Multipart
+    @POST("e2l/api/getModules.php")
+    Call<moduleBean> getModules(
+            @Part("school_id") String school_id,
+            @Part("class") String classid
+    );
+
+    @Multipart
+    @POST("e2l/api/getTopics.php")
+    Call<topicBean> getTopics(
+            @Part("module") String module
     );
 
     @NonNull

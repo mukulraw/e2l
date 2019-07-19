@@ -1,10 +1,12 @@
 package com.mrtecks.school;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +15,19 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.mrtecks.school.modulePOJO.Datum;
+import com.mrtecks.school.modulePOJO.moduleBean;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class module extends Fragment {
 
@@ -23,7 +37,11 @@ public class module extends Fragment {
     ImageView left, right;
 
     int pos;
+
+    ProgressBar progress;
     boolean first, last;
+
+    FragmentManager fm;
 
     @Nullable
     @Override
@@ -34,107 +52,92 @@ public class module extends Fragment {
         pager = view.findViewById(R.id.pager);
         left = view.findViewById(R.id.imageButton);
         right = view.findViewById(R.id.imageButton3);
+        progress = view.findViewById(R.id.progressBar4);
 
 
-        pager.setPagingEnabled(false);
+        //pager.setPagingEnabled(false);
 
-        PagerAdapter adapter = new PagerAdapter(getChildFragmentManager());
-        pager.setAdapter(adapter);
+        fm = getChildFragmentManager();
 
-        tabs.setViewPager(pager);
+        progress.setVisibility(View.VISIBLE);
+
+        Bean b = (Bean) getActivity().getApplicationContext();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(b.baseurl)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
 
-        left.setOnClickListener(new View.OnClickListener() {
+        Call<moduleBean> call = cr.getModules(SharePreferenceUtils.getInstance().getString("school_id"), SharePreferenceUtils.getInstance().getString("class"));
+
+        call.enqueue(new Callback<moduleBean>() {
             @Override
-            public void onClick(View view) {
+            public void onResponse(Call<moduleBean> call, Response<moduleBean> response) {
 
-                if (!first)
+                try {
+
+                    PagerAdapter adapter = new PagerAdapter(fm, response.body().getData());
+                    pager.setAdapter(adapter);
+
+                    tabs.setViewPager(pager);
+
+                }catch (Exception e)
                 {
-                    pager.setCurrentItem(pos - 1);
+                    e.printStackTrace();
                 }
 
+                progress.setVisibility(View.GONE);
 
+            }
+
+            @Override
+            public void onFailure(Call<moduleBean> call, Throwable t) {
+                progress.setVisibility(View.GONE);
             }
         });
 
-        right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                if (!last)
-                {
-                    pager.setCurrentItem(pos + 1);
-                }
-
-
-            }
-        });
-
-        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-                pos = position;
-                if (position == 0) {
-                    first = true;
-                    //left.setVisibility(View.GONE);
-                } else {
-                    first = false;
-                    //left.setVisibility(View.VISIBLE);
-                }
-
-                if (position == tabs.getChildCount() - 1) {
-                    last = true;
-                    //right.setVisibility(View.GONE);
-                } else {
-                    last = false;
-                    //right.setVisibility(View.VISIBLE);
-                }
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
 
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("school" , SharePreferenceUtils.getInstance().getString("school_id"));
+        Log.d("class" , SharePreferenceUtils.getInstance().getString("class"));
+
+    }
+
     class PagerAdapter extends FragmentStatePagerAdapter {
+
+        List<Datum> list = new ArrayList<>();
 
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
-            return "Module " + String.valueOf(position + 1);
+            return list.get(position).getModuleName();
         }
 
-        PagerAdapter(FragmentManager fm) {
+        PagerAdapter(FragmentManager fm, List<Datum> list) {
             super(fm);
+            this.list = list;
         }
 
         @Override
         public Fragment getItem(int position) {
 
-            if (position == 0)
-            {
-                modulepage frag = new modulepage();
-                if (position == 9) {
-                    frag.setData(pager, position);
-                } else {
-                    frag.setData(pager, position);
-                }
 
+
+            if (position == 0) {
+                modulepage frag = new modulepage();
+                frag.setData(pager, position , list.get(position).getId());
                 return frag;
-            }
-            else
-            {
+            } else {
                 return new lockModule();
             }
 
@@ -143,7 +146,7 @@ public class module extends Fragment {
 
         @Override
         public int getCount() {
-            return 4;
+            return list.size();
         }
     }
 
