@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,7 +12,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.mrtecks.school.modulePOJO.moduleBean;
+import com.mrtecks.school.topicsPOJO.Datum;
+import com.mrtecks.school.topicsPOJO.topicBean;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class modulepage extends Fragment {
 
@@ -19,6 +33,7 @@ public class modulepage extends Fragment {
     SmartTabLayout tabs;
     int position;
     String mid;
+    ProgressBar progress;
 
     public void setData(CustomViewPager pager, int position , String mid) {
         this.pager = pager;
@@ -33,14 +48,58 @@ public class modulepage extends Fragment {
 
         tabs = view.findViewById(R.id.tabLayout2);
         pager = view.findViewById(R.id.pager);
+        progress = view.findViewById(R.id.progressBar5);
 
 
         pager.setPagingEnabled(true);
 
-        PagerAdapter adapter = new PagerAdapter(getChildFragmentManager());
-        pager.setAdapter(adapter);
 
-        tabs.setViewPager(pager);
+
+
+
+
+
+        progress.setVisibility(View.VISIBLE);
+
+        Bean b = (Bean) getActivity().getApplicationContext();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(b.baseurl)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+        Call<topicBean> call = cr.getTopics(mid);
+
+        call.enqueue(new Callback<topicBean>() {
+            @Override
+            public void onResponse(Call<topicBean> call, Response<topicBean> response) {
+
+                try {
+
+                    PagerAdapter adapter = new PagerAdapter(getChildFragmentManager(), response.body().getData());
+                    pager.setAdapter(adapter);
+
+                    tabs.setViewPager(pager);
+
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+                progress.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onFailure(Call<topicBean> call, Throwable t) {
+                progress.setVisibility(View.GONE);
+            }
+        });
+
 
 
         return view;
@@ -48,55 +107,51 @@ public class modulepage extends Fragment {
 
     class PagerAdapter extends FragmentStatePagerAdapter {
 
-        String[] name = {
-                "v",
-                "v",
-                "f",
-                "f",
-                "m",
-                "m",
-                "v",
-                "v",
-                "f",
-                "f",
-                "m",
-                "m",
-                "v",
-                "v",
-                "f",
-                "f",
-                "m",
-                "m",
-                "v",
-                "f"
-        };
+        List<Datum> list = new ArrayList<>();
 
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
-            return "Topic " + String.valueOf(position + 1);
+            return list.get(position).getTopicName();
         }
 
-        PagerAdapter(FragmentManager fm) {
+        PagerAdapter(FragmentManager fm , List<Datum> list) {
             super(fm);
+            this.list = list;
         }
 
         @Override
         public Fragment getItem(int position) {
 
-            if (name[position].equals("v")) {
-                return new videoTopic();
-            } else if (name[position].equals("f")) {
-                return new fthTopic();
-            } else {
-                return new mcqTopic();
+            if (list.get(position).getAtype().equals("FILE")) {
+                videoTopic frag = new videoTopic();
+                Bundle b = new Bundle();
+                b.putString("qid" , list.get(position).getId());
+                b.putString("q" , list.get(position).getQuestion());
+                b.putString("op1" , list.get(position).getOption1());
+                b.putString("op2" , list.get(position).getOption2());
+                b.putString("op3" , list.get(position).getOption3());
+                b.putString("op4" , list.get(position).getOption4());
+                frag.setArguments(b);
+                return frag;
+            }else {
+                mcqTopic frag = new mcqTopic();
+                Bundle b = new Bundle();
+                b.putString("qid" , list.get(position).getId());
+                b.putString("q" , list.get(position).getQuestion());
+                b.putString("op1" , list.get(position).getOption1());
+                b.putString("op2" , list.get(position).getOption2());
+                b.putString("op3" , list.get(position).getOption3());
+                b.putString("op4" , list.get(position).getOption4());
+                frag.setArguments(b);
+                return frag;
             }
 
         }
 
         @Override
         public int getCount() {
-            return 20;
+            return list.size();
         }
     }
 
