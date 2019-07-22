@@ -6,6 +6,7 @@ import com.mrtecks.school.classPOJO.classBean;
 import com.mrtecks.school.modulePOJO.moduleBean;
 import com.mrtecks.school.regiterPOJO.registerBean;
 import com.mrtecks.school.schoolPOJO.schoolBean;
+import com.mrtecks.school.singleTopicPOJO.singleTopicBean;
 import com.mrtecks.school.surveyPOJO.surveyBean;
 import com.mrtecks.school.topicsPOJO.topicBean;
 
@@ -53,13 +54,30 @@ public interface AllApiIneterface {
     @POST("e2l/api/getModules.php")
     Call<moduleBean> getModules(
             @Part("school_id") String school_id,
-            @Part("class") String classid
+            @Part("class") String classid,
+            @Part("user_id") String user_id
     );
 
     @Multipart
     @POST("e2l/api/getTopics.php")
     Call<topicBean> getTopics(
-            @Part("module") String module
+            @Part("module") String module,
+            @Part("user_id") String user_id
+    );
+
+    @Multipart
+    @POST("e2l/api/getTopicById.php")
+    Call<singleTopicBean> getTopicById(
+            @Part("qid") String qid,
+            @Part("user_id") String user_id
+    );
+
+    @Multipart
+    @POST("e2l/api/submitMCQ.php")
+    Call<topicBean> submitMCQ(
+            @Part("user_id") String user_id,
+            @Part("qid") String qid,
+            @Part("answer") String answer
     );
 
     @NonNull

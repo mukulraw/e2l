@@ -72,7 +72,7 @@ public class module extends Fragment {
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
 
-        Call<moduleBean> call = cr.getModules(SharePreferenceUtils.getInstance().getString("school_id"), SharePreferenceUtils.getInstance().getString("class"));
+        Call<moduleBean> call = cr.getModules(SharePreferenceUtils.getInstance().getString("school_id"), SharePreferenceUtils.getInstance().getString("class") , SharePreferenceUtils.getInstance().getString("user_id"));
 
         call.enqueue(new Callback<moduleBean>() {
             @Override
@@ -133,9 +133,9 @@ public class module extends Fragment {
 
 
 
-            if (position == 0) {
+            if (list.get(position).getStatus().equals("ongoing") || list.get(position).getStatus().equals("completed")) {
                 modulepage frag = new modulepage();
-                frag.setData(pager, position , list.get(position).getId());
+                frag.setData(pager, position , list.get(position).getId() , list.get(position).getStatus());
                 return frag;
             } else {
                 return new lockModule();

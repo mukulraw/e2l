@@ -35,6 +35,17 @@ public class Datum {
     @SerializedName("answer")
     @Expose
     private String answer;
+    @SerializedName("video")
+    @Expose
+    private String video;
+    @SerializedName("yanswer")
+    @Expose
+    private String yanswer;
+    @SerializedName("status")
+    @Expose
+    private String status;
+
+
 
     public String getId() {
         return id;
@@ -114,5 +125,29 @@ public class Datum {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getYanswer() {
+        return yanswer;
+    }
+
+    public void setYanswer(String yanswer) {
+        this.yanswer = yanswer;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

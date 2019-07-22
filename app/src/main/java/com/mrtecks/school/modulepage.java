@@ -34,11 +34,13 @@ public class modulepage extends Fragment {
     int position;
     String mid;
     ProgressBar progress;
+    String status;
 
-    public void setData(CustomViewPager pager, int position , String mid) {
+    public void setData(CustomViewPager pager, int position , String mid , String status) {
         this.pager = pager;
         this.position = position;
         this.mid = mid;
+        this.status = status;
     }
 
     @Nullable
@@ -72,7 +74,7 @@ public class modulepage extends Fragment {
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
 
-        Call<topicBean> call = cr.getTopics(mid);
+        Call<topicBean> call = cr.getTopics(mid , SharePreferenceUtils.getInstance().getString("user_id"));
 
         call.enqueue(new Callback<topicBean>() {
             @Override
@@ -125,25 +127,26 @@ public class modulepage extends Fragment {
 
             if (list.get(position).getAtype().equals("FILE")) {
                 videoTopic frag = new videoTopic();
-                Bundle b = new Bundle();
-                b.putString("qid" , list.get(position).getId());
-                b.putString("q" , list.get(position).getQuestion());
-                b.putString("op1" , list.get(position).getOption1());
-                b.putString("op2" , list.get(position).getOption2());
-                b.putString("op3" , list.get(position).getOption3());
-                b.putString("op4" , list.get(position).getOption4());
-                frag.setArguments(b);
+                if (position == list.size() - 1)
+                {
+                    frag.setData(pager , list.get(position).getId() , position , true);
+                }
+                else
+                {
+                    frag.setData(pager , list.get(position).getId() , position , false);
+                }
+
                 return frag;
             }else {
                 mcqTopic frag = new mcqTopic();
-                Bundle b = new Bundle();
-                b.putString("qid" , list.get(position).getId());
-                b.putString("q" , list.get(position).getQuestion());
-                b.putString("op1" , list.get(position).getOption1());
-                b.putString("op2" , list.get(position).getOption2());
-                b.putString("op3" , list.get(position).getOption3());
-                b.putString("op4" , list.get(position).getOption4());
-                frag.setArguments(b);
+                if (position == list.size() - 1)
+                {
+                    frag.setData(pager , list.get(position).getId() , position , true);
+                }
+                else
+                {
+                    frag.setData(pager , list.get(position).getId() , position , false);
+                }
                 return frag;
             }
 

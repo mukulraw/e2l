@@ -37,70 +37,212 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <com.mrtecks.school.MyView
                 android:id="@+id/textView6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="Q - How to pass the data between activities in Android?"
                 android:textSize="18sp"
                 android:textColor="#000000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioGroup
+
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/youTubePlayerView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                app:handleNetworkEvents="true"
+                android:visibility="gone"
+                app:showFullScreenButton="false"
+                app:showYouTubeButton="false"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintDimensionRatio="2:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+            <LinearLayout
+                android:id="@+id/group"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
+                android:orientation="vertical"
                 android:layout_marginBottom="16dp"
-                android:id="@+id/group"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6">
+                app:layout_constraintTop_toBottomOf="@+id/youTubePlayerView">
 
-                <RadioButton
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="10dp"
-                    android:id="@+id/option1"
-                    android:text="Intent" />
+                    android:orientation="horizontal"
+                    >
 
-                <RadioButton
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:id="@+id/opt1"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        >
+
+                        <com.mrtecks.school.MyView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:typeface="monospace"
+                            android:id="@+id/text1"
+                            android:textSize="18sp"
+                            />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="fitCenter"
+                            android:id="@+id/image1"
+                            />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="10dp"
-                    android:id="@+id/option2"
-                    android:text="Content Provider" />
+                    android:orientation="horizontal"
+                    >
 
-                <RadioButton
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:id="@+id/opt2"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        >
+
+                        <com.mrtecks.school.MyView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:typeface="monospace"
+                            android:id="@+id/text2"
+                            android:textSize="18sp"
+                            />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="center"
+                            android:id="@+id/image2"
+                            />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="10dp"
-                    android:id="@+id/option3"
-                    android:text="Broadcast receiver" />
+                    android:orientation="horizontal"
+                    >
 
-                <RadioButton
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:id="@+id/opt3"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        >
+
+                        <com.mrtecks.school.MyView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:typeface="monospace"
+                            android:textSize="18sp"
+                            android:id="@+id/text3"
+                            />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="fitXY"
+                            android:id="@+id/image3"
+                            />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="10dp"
-                    android:id="@+id/option4"
-                    android:text="None of the Above" />
+                    android:orientation="horizontal"
+                    >
 
-            </RadioGroup>
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:id="@+id/opt4"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        >
+
+                        <com.mrtecks.school.MyView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:typeface="monospace"
+                            android:textSize="18sp"
+                            android:id="@+id/text4"
+                            />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="fitCenter"
+                            android:id="@+id/image4"
+                            />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
