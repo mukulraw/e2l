@@ -85,6 +85,8 @@ public class modulepage extends Fragment {
                     PagerAdapter adapter = new PagerAdapter(getChildFragmentManager(), response.body().getData());
                     pager.setAdapter(adapter);
 
+
+
                     tabs.setViewPager(pager);
 
                 }catch (Exception e)

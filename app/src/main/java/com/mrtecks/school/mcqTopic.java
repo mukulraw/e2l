@@ -1,6 +1,7 @@
 package com.mrtecks.school;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.github.kexanie.library.MathView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,7 +38,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class mcqTopic extends Fragment {
 
-    MyView question;
+    MathView question;
 
     Button submit;
     ProgressBar progress;
@@ -46,8 +48,8 @@ public class mcqTopic extends Fragment {
     YouTubePlayerView player;
 
 
-    MyView text1 , text2 , text3 , text4;
-    CheckBox check1 , check2 , check3 , check4;
+    MathView text1 , text2 , text3 , text4;
+    RadioButton check1 , check2 , check3 , check4;
 
     String pos = "";
 
@@ -86,6 +88,10 @@ public class mcqTopic extends Fragment {
         check2 = view.findViewById(R.id.opt2);
         check3 = view.findViewById(R.id.opt3);
         check4 = view.findViewById(R.id.opt4);
+
+        RadioGroup group = new RadioGroup(getActivity());
+
+
 
 
         getLifecycle().addObserver(player);
@@ -164,6 +170,10 @@ public class mcqTopic extends Fragment {
         });
 
 
+
+
+
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -194,12 +204,12 @@ public class mcqTopic extends Fragment {
                             @Override
                             public void onResponse(Call<topicBean> call, Response<topicBean> response) {
 
-                                pager.setCurrentItem(position + 1);
-
                                 Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                 progress.setVisibility(View.GONE);
 
                                 loadData();
+
+                                pager.setCurrentItem(position + 1);
 
                             }
 
@@ -228,6 +238,9 @@ public class mcqTopic extends Fragment {
         });
 
 
+        loadData();
+
+
         return view;
     }
 
@@ -247,7 +260,6 @@ public class mcqTopic extends Fragment {
     public void onResume() {
         super.onResume();
 
-        loadData();
 
     }
 
@@ -266,6 +278,8 @@ public class mcqTopic extends Fragment {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
+        Log.d("user" , SharePreferenceUtils.getInstance().getString("user_id"));
+
         Call<singleTopicBean> call = cr.getTopicById(qid , SharePreferenceUtils.getInstance().getString("user_id"));
 
         call.enqueue(new Callback<singleTopicBean>() {
@@ -278,26 +292,26 @@ public class mcqTopic extends Fragment {
                     final Data item = response.body().getData();
 
 
-                    question.setConfig(
+                    question.config(
                             "MathJax.Hub.Config({\n" +
                                     "  tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']]}\n" +
                                     "});");
 
-                    text1.setConfig(
+                    text1.config(
                             "MathJax.Hub.Config({\n" +
                                     "  tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']]}\n" +
                                     "});");
 
-                    text2.setConfig(
+                    text2.config(
                             "MathJax.Hub.Config({\n" +
                                     "  tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']]}\n" +
                                     "});");
-                    text3.setConfig(
+                    text3.config(
                             "MathJax.Hub.Config({\n" +
                                     "  tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']]}\n" +
                                     "});");
 
-                    text4.setConfig(
+                    text4.config(
                             "MathJax.Hub.Config({\n" +
                                     "  tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']]}\n" +
                                     "});");
@@ -332,21 +346,39 @@ public class mcqTopic extends Fragment {
                     if (item.getStatus().equals("1"))
                     {
                         submit.setVisibility(View.GONE);
-                        if (item.getYanswer().equals("1"))
-                        {
-                            check1.setSelected(true);
-                        }
-                        else if (item.getYanswer().equals("2"))
-                        {
-                            check2.setSelected(true);
-                        }
-                        else if (item.getYanswer().equals("3"))
-                        {
-                            check3.setSelected(true);
-                        }
-                        else if (item.getYanswer().equals("4"))
-                        {
-                            check4.setSelected(true);
+
+                        Log.d("pos" , item.getYanswer());
+
+                        switch (item.getYanswer()) {
+                            case "1":
+                                check1.setChecked(true);
+                                check1.setEnabled(false);
+                                check2.setEnabled(false);
+                                check3.setEnabled(false);
+                                check4.setEnabled(false);
+                                break;
+                            case "2":
+                                check2.setChecked(true);
+                                check1.setEnabled(false);
+                                check2.setEnabled(false);
+                                check3.setEnabled(false);
+                                check4.setEnabled(false);
+                                break;
+                            case "3":
+
+                                check3.setChecked(true);
+                                check1.setEnabled(false);
+                                check2.setEnabled(false);
+                                check3.setEnabled(false);
+                                check4.setEnabled(false);
+                                break;
+                            case "4":
+                                check4.setChecked(true);
+                                check1.setEnabled(false);
+                                check2.setEnabled(false);
+                                check3.setEnabled(false);
+                                check4.setEnabled(false);
+                                break;
                         }
                     }
                     else
@@ -370,6 +402,8 @@ public class mcqTopic extends Fragment {
 
     private void setChech()
     {
+
+
 
         switch (pos) {
             case "1":

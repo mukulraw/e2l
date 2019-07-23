@@ -82,7 +82,7 @@ public class module extends Fragment {
 
                     PagerAdapter adapter = new PagerAdapter(fm, response.body().getData());
                     pager.setAdapter(adapter);
-
+                    pager.setOffscreenPageLimit(response.body().getData().size() - 1);
                     tabs.setViewPager(pager);
 
                 }catch (Exception e)

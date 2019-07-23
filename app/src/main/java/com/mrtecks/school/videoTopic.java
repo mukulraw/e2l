@@ -21,6 +21,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.github.kexanie.library.MathView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,7 +33,7 @@ public class videoTopic extends Fragment {
 
 
     String qid;
-    MyView question;
+    MathView question;
     ProgressBar progress;
     Button submit;
     YouTubePlayerView player;
@@ -66,6 +67,8 @@ public class videoTopic extends Fragment {
         player = view.findViewById(R.id.youTubePlayerView);
 
 
+
+        loadData();
 
 
 
@@ -110,7 +113,7 @@ public class videoTopic extends Fragment {
                     final Data item = response.body().getData();
 
 
-                    question.setConfig(
+                    question.config(
                             "MathJax.Hub.Config({\n" +
                                     "  tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']]}\n" +
                                     "});");

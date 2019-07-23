@@ -37,13 +37,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.mrtecks.school.MyView
+            <io.github.kexanie.library.MathView
                 android:id="@+id/textView6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                app:engine="MathJax"
                 android:textSize="18sp"
                 android:textColor="#000000"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -88,7 +89,7 @@
                     android:orientation="horizontal"
                     >
 
-                    <CheckBox
+                    <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -100,11 +101,12 @@
                         android:layout_gravity="center_vertical"
                         >
 
-                        <com.mrtecks.school.MyView
+                        <io.github.kexanie.library.MathView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:typeface="monospace"
                             android:id="@+id/text1"
+                            app:engine="MathJax"
                             android:textSize="18sp"
                             />
 
@@ -128,7 +130,7 @@
                     android:orientation="horizontal"
                     >
 
-                    <CheckBox
+                    <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -140,12 +142,13 @@
                         android:layout_gravity="center_vertical"
                         >
 
-                        <com.mrtecks.school.MyView
+                        <io.github.kexanie.library.MathView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:typeface="monospace"
                             android:id="@+id/text2"
                             android:textSize="18sp"
+                            app:engine="MathJax"
                             />
 
                         <ImageView
@@ -168,7 +171,7 @@
                     android:orientation="horizontal"
                     >
 
-                    <CheckBox
+                    <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -180,12 +183,13 @@
                         android:layout_gravity="center_vertical"
                         >
 
-                        <com.mrtecks.school.MyView
+                        <io.github.kexanie.library.MathView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:typeface="monospace"
                             android:textSize="18sp"
                             android:id="@+id/text3"
+                            app:engine="MathJax"
                             />
 
                         <ImageView
@@ -208,7 +212,7 @@
                     android:orientation="horizontal"
                     >
 
-                    <CheckBox
+                    <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -220,11 +224,12 @@
                         android:layout_gravity="center_vertical"
                         >
 
-                        <com.mrtecks.school.MyView
+                        <io.github.kexanie.library.MathView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:typeface="monospace"
                             android:textSize="18sp"
+                            app:engine="MathJax"
                             android:id="@+id/text4"
                             />
 
