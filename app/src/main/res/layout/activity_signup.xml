@@ -11,11 +11,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
+        android:background="#f2f2f2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/background" />
+        />
 
     <TextView
         android:id="@+id/textView"
@@ -24,7 +25,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:text="SIGN UP"
-        android:textColor="#ffffff"
+        android:textColor="#000000"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -98,7 +99,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="40dp"
                 android:text="NAME"
-                android:textColor="#ffffff" />
+                android:textColor="#000000" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -131,7 +132,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="40dp"
                 android:text="PHOTO"
-                android:textColor="#ffffff" />
+                android:textColor="#000000" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -181,7 +182,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="PHONE"
-                android:textColor="#ffffff" />
+                android:textColor="#000000" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -214,7 +215,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="SCHOOL"
-                android:textColor="#ffffff" />
+                android:textColor="#000000" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -242,7 +243,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="CLASS"
-                android:textColor="#ffffff" />
+                android:textColor="#000000" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -270,7 +271,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="ROLL NO."
-                android:textColor="#ffffff" />
+                android:textColor="#000000" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -303,7 +304,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="PASSWORD"
-                android:textColor="#ffffff" />
+                android:textColor="#000000" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -336,7 +337,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="CONFIRM PASSWORD"
-                android:textColor="#ffffff" />
+                android:textColor="#000000" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"

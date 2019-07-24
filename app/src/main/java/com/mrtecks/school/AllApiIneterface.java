@@ -44,6 +44,15 @@ public interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("e2l/api/updateProfile.php")
+    Call<registerBean> updateProfile(
+            @Part("name") String name,
+            @Part("rollno") String rollno,
+            @Part("user_id") String user_id,
+            @Part MultipartBody.Part file1
+    );
+
+    @Multipart
     @POST("e2l/api/login.php")
     Call<registerBean> login(
             @Part("contact") String contact,
