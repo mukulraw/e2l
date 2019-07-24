@@ -1,6 +1,7 @@
 package com.mrtecks.school;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.strictmode.WebViewMethodCalledOnWrongThreadViolation;
 import android.view.ContextMenu;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -146,9 +148,9 @@ adapter = new ProgressAdapter(getContext() , list);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
-            Datum item = list.get(position);
+            final Datum item = list.get(position);
 
             if (isstart)
             {
@@ -167,6 +169,25 @@ adapter = new ProgressAdapter(getContext() , list);
             }
 
             holder.module.setText(item.getModuleName());
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (holder.status.getText().toString().toLowerCase().equals("completed"))
+                    {
+                        Intent intent = new Intent(context , ProgressReport.class);
+                        intent.putExtra("mid" , item.getId());
+                        intent.putExtra("name" , item.getModuleName());
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "You need to complete this module to see the progress report", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
 
         }
 

@@ -64,6 +64,13 @@ public interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("e2l/api/getReport.php")
+    Call<progressBean> getReport(
+            @Part("mid") String mid,
+            @Part("user_id") String user_id
+    );
+
+    @Multipart
     @POST("e2l/api/getModules.php")
     Call<moduleBean> getModules(
             @Part("school_id") String school_id,
