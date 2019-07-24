@@ -51,21 +51,27 @@ public class mcqTopic extends Fragment {
     MathView text1 , text2 , text3 , text4;
     RadioButton check1 , check2 , check3 , check4;
 
-    String pos = "";
+    String pos = "" , mid;
 
 
     CustomViewPager pager;
 
     int position;
 
+    TextView filelabel , videolabel , file;
+
     boolean last;
 
-    public void setData(CustomViewPager pager , String qid , int position , boolean last)
+    module co;
+
+    public void setData(CustomViewPager pager , String qid , int position , boolean last , String mid , module co)
     {
         this.pager = pager;
         this.qid = qid;
         this.position = position;
         this.last = last;
+        this.mid = mid;
+        this.co = co;
     }
 
     @Nullable
@@ -84,12 +90,16 @@ public class mcqTopic extends Fragment {
         text3 = view.findViewById(R.id.text3);
         text4 = view.findViewById(R.id.text4);
 
+        filelabel = view.findViewById(R.id.textView10);
+        videolabel = view.findViewById(R.id.textView12);
+        file = view.findViewById(R.id.textView11);
+
         check1 = view.findViewById(R.id.opt1);
         check2 = view.findViewById(R.id.opt2);
         check3 = view.findViewById(R.id.opt3);
         check4 = view.findViewById(R.id.opt4);
 
-        RadioGroup group = new RadioGroup(getActivity());
+
 
 
 
@@ -198,7 +208,7 @@ public class mcqTopic extends Fragment {
 
                     if (!last)
                     {
-                        Call<topicBean> call = cr.submitMCQ(SharePreferenceUtils.getInstance().getString("user_id") , qid , pos);
+                        Call<topicBean> call = cr.submitMCQ(SharePreferenceUtils.getInstance().getString("user_id") , qid , pos , mid);
 
                         call.enqueue(new Callback<topicBean>() {
                             @Override
@@ -221,6 +231,35 @@ public class mcqTopic extends Fragment {
                     }
                     else
                     {
+
+                        Call<topicBean> call = cr.submitMCQmodule(
+                                SharePreferenceUtils.getInstance().getString("user_id") ,
+                                qid ,
+                                pos ,
+                                mid,
+                                SharePreferenceUtils.getInstance().getString("school_id"),
+                                SharePreferenceUtils.getInstance().getString("class")
+                        );
+
+                        call.enqueue(new Callback<topicBean>() {
+                            @Override
+                            public void onResponse(Call<topicBean> call, Response<topicBean> response) {
+
+                                Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                progress.setVisibility(View.GONE);
+
+                                loadData();
+
+                                co.loadData();
+                                //pager.setCurrentItem(position + 1);
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<topicBean> call, Throwable t) {
+                                progress.setVisibility(View.GONE);
+                            }
+                        });
 
                     }
 
@@ -325,6 +364,7 @@ public class mcqTopic extends Fragment {
 
                     if (item.getVideo().length() > 0)
                     {
+                        videolabel.setVisibility(View.VISIBLE);
                         player.setVisibility(View.VISIBLE);
 
                         player.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
@@ -343,9 +383,24 @@ public class mcqTopic extends Fragment {
 
 
 
+                    if (item.getFile().length() > 0)
+                    {
+                        file.setText(item.getFile());
+                        file.setVisibility(View.VISIBLE);
+                        filelabel.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        file.setVisibility(View.GONE);
+                        filelabel.setVisibility(View.GONE);
+                    }
+
+
+
                     if (item.getStatus().equals("1"))
                     {
                         submit.setVisibility(View.GONE);
+                        videolabel.setVisibility(View.GONE);
 
                         Log.d("pos" , item.getYanswer());
 

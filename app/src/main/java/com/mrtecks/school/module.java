@@ -43,10 +43,14 @@ public class module extends Fragment {
 
     FragmentManager fm;
 
+    module co;
+
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.module_layout, container, false);
+
+        co = this;
 
         tabs = view.findViewById(R.id.tabLayout2);
         pager = view.findViewById(R.id.pager);
@@ -59,6 +63,16 @@ public class module extends Fragment {
 
         fm = getChildFragmentManager();
 
+
+        loadData();
+
+
+        return view;
+    }
+
+
+    void loadData()
+    {
         progress.setVisibility(View.VISIBLE);
 
         Bean b = (Bean) getActivity().getApplicationContext();
@@ -80,10 +94,36 @@ public class module extends Fragment {
 
                 try {
 
-                    PagerAdapter adapter = new PagerAdapter(fm, response.body().getData());
-                    pager.setAdapter(adapter);
-                    pager.setOffscreenPageLimit(response.body().getData().size() - 1);
-                    tabs.setViewPager(pager);
+                    int flag = -1;
+
+                    for (int i = 0; i < response.body().getData().size(); i++) {
+
+                        if (response.body().getData().get(i).getStatus().equals("ongoing") || response.body().getData().get(i).getStatus().equals("completed"))
+                        {
+                            flag = i;
+                        }
+
+                    }
+
+                    if (flag > -1)
+                    {
+                        PagerAdapter adapter = new PagerAdapter(fm, response.body().getData() , false);
+                        pager.setAdapter(adapter);
+                        pager.setOffscreenPageLimit(response.body().getData().size() - 1);
+                        tabs.setViewPager(pager);
+                    }
+                    else
+                    {
+                        PagerAdapter adapter = new PagerAdapter(fm, response.body().getData() , true);
+                        pager.setAdapter(adapter);
+                        pager.setOffscreenPageLimit(response.body().getData().size() - 1);
+                        tabs.setViewPager(pager);
+                    }
+
+
+                    pager.setCurrentItem(flag);
+
+
 
                 }catch (Exception e)
                 {
@@ -99,11 +139,8 @@ public class module extends Fragment {
                 progress.setVisibility(View.GONE);
             }
         });
-
-
-
-        return view;
     }
+
 
     @Override
     public void onResume() {
@@ -116,6 +153,7 @@ public class module extends Fragment {
     class PagerAdapter extends FragmentStatePagerAdapter {
 
         List<Datum> list = new ArrayList<>();
+        boolean isstart = false;
 
         @Nullable
         @Override
@@ -123,22 +161,38 @@ public class module extends Fragment {
             return list.get(position).getModuleName();
         }
 
-        PagerAdapter(FragmentManager fm, List<Datum> list) {
+        PagerAdapter(FragmentManager fm, List<Datum> list , boolean isstart) {
             super(fm);
             this.list = list;
+            this.isstart = isstart;
         }
 
         @Override
         public Fragment getItem(int position) {
 
 
-
-            if (list.get(position).getStatus().equals("ongoing") || list.get(position).getStatus().equals("completed")) {
-                modulepage frag = new modulepage();
-                frag.setData(pager, position , list.get(position).getId() , list.get(position).getStatus());
-                return frag;
-            } else {
-                return new lockModule();
+            if (isstart)
+            {
+                if (position == 0)
+                {
+                    modulepage frag = new modulepage();
+                    frag.setData(co, position , list.get(position).getId() , list.get(position).getStatus());
+                    return frag;
+                }
+                else
+                {
+                    return new lockModule();
+                }
+            }
+            else
+            {
+                if (list.get(position).getStatus().equals("ongoing") || list.get(position).getStatus().equals("completed")) {
+                    modulepage frag = new modulepage();
+                    frag.setData(co, position , list.get(position).getId() , list.get(position).getStatus());
+                    return frag;
+                } else {
+                    return new lockModule();
+                }
             }
 
 

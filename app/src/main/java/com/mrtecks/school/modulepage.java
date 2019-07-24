@@ -1,6 +1,7 @@
 package com.mrtecks.school;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,14 +31,16 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class modulepage extends Fragment {
 
     CustomViewPager pager;
+    CustomViewPager pager1;
     SmartTabLayout tabs;
     int position;
     String mid;
     ProgressBar progress;
     String status;
+    module co;
 
-    public void setData(CustomViewPager pager, int position , String mid , String status) {
-        this.pager = pager;
+    public void setData(module co, int position , String mid , String status) {
+        this.co = co;
         this.position = position;
         this.mid = mid;
         this.status = status;
@@ -73,6 +76,8 @@ public class modulepage extends Fragment {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
+        Log.d("mid" , mid);
+        Log.d("user" , SharePreferenceUtils.getInstance().getString("user_id"));
 
         Call<topicBean> call = cr.getTopics(mid , SharePreferenceUtils.getInstance().getString("user_id"));
 
@@ -131,11 +136,11 @@ public class modulepage extends Fragment {
                 videoTopic frag = new videoTopic();
                 if (position == list.size() - 1)
                 {
-                    frag.setData(pager , list.get(position).getId() , position , true);
+                    frag.setData(pager , list.get(position).getId() , position , true , mid , co);
                 }
                 else
                 {
-                    frag.setData(pager , list.get(position).getId() , position , false);
+                    frag.setData(pager , list.get(position).getId() , position , false , mid , co);
                 }
 
                 return frag;
@@ -143,11 +148,11 @@ public class modulepage extends Fragment {
                 mcqTopic frag = new mcqTopic();
                 if (position == list.size() - 1)
                 {
-                    frag.setData(pager , list.get(position).getId() , position , true);
+                    frag.setData(pager , list.get(position).getId() , position , true , mid , co);
                 }
                 else
                 {
-                    frag.setData(pager , list.get(position).getId() , position , false);
+                    frag.setData(pager , list.get(position).getId() , position , false , mid , co);
                 }
                 return frag;
             }

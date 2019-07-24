@@ -77,7 +77,19 @@ public interface AllApiIneterface {
     Call<topicBean> submitMCQ(
             @Part("user_id") String user_id,
             @Part("qid") String qid,
-            @Part("answer") String answer
+            @Part("answer") String answer,
+            @Part("module") String module
+    );
+
+    @Multipart
+    @POST("e2l/api/submitMCQmodule.php")
+    Call<topicBean> submitMCQmodule(
+            @Part("user_id") String user_id,
+            @Part("qid") String qid,
+            @Part("answer") String answer,
+            @Part("mid") String mid,
+            @Part("school_id") String school_id,
+            @Part("class") String classes
     );
 
     @NonNull
@@ -90,6 +102,26 @@ public interface AllApiIneterface {
             @Part("user_id") String user_id,
             @Part("qid") String qid,
             @Part("answer") String answer
+    );
+
+    @Multipart
+    @POST("e2l/api/submitFile.php")
+    Call<registerBean> submitFile(
+            @Part("user_id") String user_id,
+            @Part("qid") String qid,
+            @Part("module") String module,
+            @Part MultipartBody.Part file1
+    );
+
+    @Multipart
+    @POST("e2l/api/submitFilemodule.php")
+    Call<registerBean> submitFilemodule(
+            @Part("user_id") String user_id,
+            @Part("qid") String qid,
+            @Part("mid") String module,
+            @Part("school_id") String school_id,
+            @Part("class") String classes,
+            @Part MultipartBody.Part file1
     );
 
     /*@Multipart

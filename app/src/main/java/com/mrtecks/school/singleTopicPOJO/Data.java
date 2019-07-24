@@ -43,6 +43,9 @@ public class Data {
     @SerializedName("status")
     @Expose
     private String status;
+    @SerializedName("file")
+    @Expose
+    private String file;
 
     public String getId() {
         return id;
@@ -146,5 +149,13 @@ public class Data {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
     }
 }
