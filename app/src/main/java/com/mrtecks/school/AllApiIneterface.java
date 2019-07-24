@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.mrtecks.school.classPOJO.classBean;
 import com.mrtecks.school.modulePOJO.moduleBean;
+import com.mrtecks.school.notiPOJO.notiBean;
 import com.mrtecks.school.regiterPOJO.registerBean;
 import com.mrtecks.school.schoolPOJO.schoolBean;
 import com.mrtecks.school.singleTopicPOJO.singleTopicBean;
@@ -23,6 +24,9 @@ public interface AllApiIneterface {
     @GET("e2l/api/getSchools.php")
     Call<schoolBean> getSchools();
 
+    @NonNull
+    @GET("e2l/api/getNoti.php")
+    Call<notiBean> getNoti();
 
     @NonNull
     @Multipart

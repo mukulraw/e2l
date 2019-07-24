@@ -34,7 +34,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottom;
-    ImageButton settings;
+    ImageButton settings , noti;
     DrawerLayout drawer;
     CircleImageView image;
     TextView name , phone , about , privacy , logout;
@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         about = findViewById(R.id.textView17);
         privacy = findViewById(R.id.textView18);
         logout = findViewById(R.id.logout);
+        noti = findViewById(R.id.imageButton2);
 
 
         settings.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +64,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        noti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this , Notification.class);
+                startActivity(intent);
+
+            }
+        });
 
         bottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
