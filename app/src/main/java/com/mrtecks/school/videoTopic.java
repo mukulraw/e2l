@@ -69,7 +69,7 @@ public class videoTopic extends Fragment {
     CustomViewPager pager;
     module co;
     TextView filelabel , videolabel , file;
-
+YouTubePlayer youTubePlayer;
 
     int position;
 
@@ -105,6 +105,8 @@ public class videoTopic extends Fragment {
         videolabel = view.findViewById(R.id.textView12);
         file = view.findViewById(R.id.textView11);
 
+        getLifecycle().addObserver(player);
+        player.enableBackgroundPlayback(false);
 
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -277,6 +279,9 @@ public class videoTopic extends Fragment {
                         player.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
                             @Override
                             public void onReady(YouTubePlayer youTubePlayer) {
+
+                                videoTopic.this.youTubePlayer = youTubePlayer;
+
                                 String videoId = getYouTubeId(item.getVideo());
                                 youTubePlayer.loadVideo(videoId, 0);
                             }
@@ -710,6 +715,14 @@ public class videoTopic extends Fragment {
             }
         }
         return null;
+    }
+
+
+    @Override
+    public void setMenuVisibility(final boolean visible) {
+        super.setMenuVisibility(visible);
+        if (!visible && youTubePlayer != null)
+            youTubePlayer.pause();
     }
 
 

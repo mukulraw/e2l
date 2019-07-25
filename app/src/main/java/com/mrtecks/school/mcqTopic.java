@@ -47,6 +47,8 @@ public class mcqTopic extends Fragment {
 
     YouTubePlayerView player;
 
+    YouTubePlayer youTubePlayer;
+
 
     MathView text1 , text2 , text3 , text4;
     RadioButton check1 , check2 , check3 , check4;
@@ -105,6 +107,7 @@ public class mcqTopic extends Fragment {
 
 
         getLifecycle().addObserver(player);
+        player.enableBackgroundPlayback(false);
 
 
         check1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -370,6 +373,7 @@ public class mcqTopic extends Fragment {
                         player.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
                             @Override
                             public void onReady(YouTubePlayer youTubePlayer) {
+                                mcqTopic.this.youTubePlayer = youTubePlayer;
                                 String videoId = getYouTubeId(item.getVideo());
                                 youTubePlayer.loadVideo(videoId, 0);
                             }
@@ -493,6 +497,13 @@ public class mcqTopic extends Fragment {
                 break;
         }
 
+    }
+
+    @Override
+    public void setMenuVisibility(final boolean visible) {
+        super.setMenuVisibility(visible);
+        if (!visible && youTubePlayer != null)
+            youTubePlayer.pause();
     }
 
 }
