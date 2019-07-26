@@ -50,7 +50,7 @@
         app:tabGravity="fill"
         app:tabMode="scrollable" />
 
-    <com.mrtecks.school.CustomViewPager
+    <com.mrtecks.e2l.CustomViewPager
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:id="@+id/pager"

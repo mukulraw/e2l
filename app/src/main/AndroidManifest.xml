@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mrtecks.school">
+    package="com.mrtecks.e2l">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name=".Bean"
+        android:name="com.mrtecks.e2l.Bean"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,13 +17,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProgressReport"></activity>
-        <activity android:name=".Notification" />
+        <activity android:name="com.mrtecks.e2l.ProgressReport"></activity>
+        <activity android:name="com.mrtecks.e2l.Notification" />
         <activity
-            android:name=".WEb"
+            android:name="com.mrtecks.e2l.WEb"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Splash"
+            android:name="com.mrtecks.e2l.Splash"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,16 +32,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Survey"
+            android:name="com.mrtecks.e2l.Survey"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Signup"
+            android:name="com.mrtecks.e2l.Signup"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Login"
+            android:name="com.mrtecks.e2l.Login"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.mrtecks.e2l.MainActivity"
             android:screenOrientation="portrait" />
 
         <provider
@@ -55,7 +55,7 @@
         </provider>
 
         <service
-            android:name=".MyFirebaseMessagingService"
+            android:name="com.mrtecks.e2l.MyFirebaseMessagingService"
             android:permission="">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

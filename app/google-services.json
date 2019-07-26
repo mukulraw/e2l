@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:723362617491:android:4c3fb614bb726e4c",
         "android_client_info": {
-          "package_name": "com.mrtecks.school"
+          "package_name": "com.mrtecks.e2l"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "723362617491-gb8a32dmetsesl0bb3fk7kg5s71j527j.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.mrtecks.school",
+            "package_name": "com.mrtecks.e2l",
             "certificate_hash": "93f555d2b34ca486dcfcd2b7f2ad9f13e89bf194"
           }
         },
