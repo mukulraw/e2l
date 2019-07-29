@@ -1,5 +1,6 @@
 package com.mrtecks.e2l;
 
+import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -57,7 +58,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static android.app.Activity.RESULT_OK;
 
-public class videoTopic extends Fragment {
+public class videoTopic extends Fragment implements ProgressRequestBody.UploadCallbacks {
 
 
     String qid , mid;
@@ -70,7 +71,7 @@ public class videoTopic extends Fragment {
     module co;
     TextView filelabel , videolabel , file;
 YouTubePlayer youTubePlayer;
-
+    ProgressDialog prog;
     int position;
 
     boolean last;
@@ -88,12 +89,21 @@ YouTubePlayer youTubePlayer;
         this.co = co;
     }
 
+    Toast toast;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.video_layout , container , false);
 
+
+        toast = Toast.makeText(getContext(), null, Toast.LENGTH_SHORT);
+
+        prog = new ProgressDialog(getContext());
+        prog.setMessage("Uploading File");
+        prog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        prog.setIndeterminate(false);
+        //prog.setProgress(0);
 
 
 
@@ -359,8 +369,10 @@ YouTubePlayer youTubePlayer;
 
             try {
 
-                RequestBody reqFile1 = RequestBody.create(MediaType.parse("multipart/form-data"), f1);
-                body = MultipartBody.Part.createFormData("answer", f1.getName(), reqFile1);
+
+                ProgressRequestBody fileBody = new ProgressRequestBody(f1, this);
+                //RequestBody reqFile1 = RequestBody.create(MediaType.parse("multipart/form-data"), f1);
+                body = MultipartBody.Part.createFormData("answer", f1.getName(), fileBody);
 
                 progress.setVisibility(View.VISIBLE);
 
@@ -417,8 +429,9 @@ YouTubePlayer youTubePlayer;
 
             try {
 
-                RequestBody reqFile1 = RequestBody.create(MediaType.parse("multipart/form-data"), f1);
-                body = MultipartBody.Part.createFormData("answer", f1.getName(), reqFile1);
+                ProgressRequestBody fileBody = new ProgressRequestBody(f1, this);
+                //RequestBody reqFile1 = RequestBody.create(MediaType.parse("multipart/form-data"), f1);
+                body = MultipartBody.Part.createFormData("answer", f1.getName(), fileBody);
 
                 progress.setVisibility(View.VISIBLE);
 
@@ -489,8 +502,9 @@ YouTubePlayer youTubePlayer;
 
             try {
 
-                RequestBody reqFile1 = RequestBody.create(MediaType.parse("multipart/form-data"), f1);
-                body = MultipartBody.Part.createFormData("answer", f1.getName(), reqFile1);
+                ProgressRequestBody fileBody = new ProgressRequestBody(f1, this);
+                //RequestBody reqFile1 = RequestBody.create(MediaType.parse("multipart/form-data"), f1);
+                body = MultipartBody.Part.createFormData("answer", f1.getName(), fileBody);
 
                 progress.setVisibility(View.VISIBLE);
 
@@ -547,9 +561,9 @@ YouTubePlayer youTubePlayer;
             MultipartBody.Part body = null;
 
             try {
-
-                RequestBody reqFile1 = RequestBody.create(MediaType.parse("multipart/form-data"), f1);
-                body = MultipartBody.Part.createFormData("answer", f1.getName(), reqFile1);
+                ProgressRequestBody fileBody = new ProgressRequestBody(f1, this);
+                //RequestBody reqFile1 = RequestBody.create(MediaType.parse("multipart/form-data"), f1);
+                body = MultipartBody.Part.createFormData("answer", f1.getName(), fileBody);
 
                 progress.setVisibility(View.VISIBLE);
 
@@ -726,4 +740,33 @@ YouTubePlayer youTubePlayer;
     }
 
 
+
+    @Override
+    public void onProgressUpdate(int percentage) {
+        progress.setProgress(percentage);
+
+        Log.d("percent" , String.valueOf(percentage));
+
+        prog.setProgress(percentage);
+        prog.show();
+
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
+    @Override
+    public void onFinish() {
+progress.setVisibility(View.GONE);
+        prog.dismiss();
+    }
+
+    @Override
+    public void uploadStart() {
+        progress.setVisibility(View.VISIBLE);
+
+
+    }
 }
