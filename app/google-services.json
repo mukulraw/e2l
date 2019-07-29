@@ -8,14 +8,51 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:723362617491:android:4c3fb614bb726e4c",
+        "mobilesdk_app_id": "1:723362617491:android:c4804c1b215a2357",
+        "android_client_info": {
+          "package_name": "com.app.roshni"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "723362617491-7criud8kk0t9l9jhth8gm0tmo4qatmqp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.roshni",
+            "certificate_hash": "93f555d2b34ca486dcfcd2b7f2ad9f13e89bf194"
+          }
+        },
+        {
+          "client_id": "723362617491-fhcuki724n6h2mfnn7slo6vcul0jc19o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMPZpJp5CUBraCP_H6FHQ2imp-iBym_hg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "723362617491-fhcuki724n6h2mfnn7slo6vcul0jc19o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:723362617491:android:a33c432455302918",
         "android_client_info": {
           "package_name": "com.mrtecks.e2l"
         }
       },
       "oauth_client": [
         {
-          "client_id": "723362617491-gb8a32dmetsesl0bb3fk7kg5s71j527j.apps.googleusercontent.com",
+          "client_id": "723362617491-k3uobllmp8176goi6v1l6st251un1hco.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.mrtecks.e2l",
