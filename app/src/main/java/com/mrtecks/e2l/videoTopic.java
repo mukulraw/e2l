@@ -9,12 +9,14 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
@@ -38,8 +41,10 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -49,6 +54,7 @@ import io.github.kexanie.library.MathView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -69,15 +75,22 @@ public class videoTopic extends Fragment implements ProgressRequestBody.UploadCa
 
     CustomViewPager pager;
     module co;
-    TextView filelabel , videolabel , file;
+    TextView filelabel , videolabel , filename;
+    CardView file;
 YouTubePlayer youTubePlayer;
-    ProgressDialog prog;
+    ProgressDialog prog , prog2;
     int position;
 
     boolean last;
 
     private Uri uri;
     private File f1;
+
+    String furl = "" , fname;
+
+
+    DownloadZipFileTask downloadZipFileTask;
+    private static final String TAG = "MainActivity";
 
     public void setData(CustomViewPager pager , String qid , int position , boolean last , String mid , module co)
     {
@@ -100,11 +113,15 @@ YouTubePlayer youTubePlayer;
         toast = Toast.makeText(getContext(), null, Toast.LENGTH_SHORT);
 
         prog = new ProgressDialog(getContext());
-        prog.setMessage("Uploading File");
+        prog.setMessage("Uploading File...");
         prog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         prog.setIndeterminate(false);
         //prog.setProgress(0);
 
+        prog2 = new ProgressDialog(getContext());
+        prog2.setMessage("Downloading File...");
+        prog2.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        prog2.setIndeterminate(false);
 
 
         question = view.findViewById(R.id.textView6);
@@ -112,6 +129,7 @@ YouTubePlayer youTubePlayer;
         submit = view.findViewById(R.id.button3);
         player = view.findViewById(R.id.youTubePlayerView);
         filelabel = view.findViewById(R.id.textView10);
+        filename = view.findViewById(R.id.filename);
         videolabel = view.findViewById(R.id.textView12);
         file = view.findViewById(R.id.textView11);
 
@@ -231,9 +249,161 @@ YouTubePlayer youTubePlayer;
         loadData();
 
 
+        file.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                progress.setVisibility(View.VISIBLE);
+
+                Bean b = (Bean) getActivity().getApplicationContext();
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(b.baseurl)
+                        .addConverterFactory(ScalarsConverterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                Call<ResponseBody> call = cr.downloadFileByUrl(furl);
+
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                        downloadZipFileTask = new DownloadZipFileTask();
+                        downloadZipFileTask.execute(response.body());
+
+
+                        progress.setVisibility(View.GONE);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        progress.setVisibility(View.GONE);
+                    }
+                });
+
+
+            }
+        });
+
 
         return view;
     }
+
+
+
+    private class DownloadZipFileTask extends AsyncTask<ResponseBody, Pair<Integer, Long>, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(ResponseBody... urls) {
+            //Copy you logic to calculate progress and call
+            saveToDisk(urls[0], fname);
+            return null;
+        }
+
+        protected void onProgressUpdate(Pair<Integer, Long>... progress) {
+
+            Log.d("API123", progress[0].second + " ");
+
+            if (progress[0].second == 100)
+                prog2.dismiss();
+                //Toast.makeText(getContext(), "File downloaded successfully", Toast.LENGTH_SHORT).show();
+
+
+            if (progress[0].second > 0) {
+                int currentProgress = (int) ((double) progress[0].first / (double) progress[0].second * 100);
+
+                if (currentProgress == 100)
+                {
+                    prog2.dismiss();
+                    Toast.makeText(getContext(), "File downloaded successfully", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    prog2.setProgress(currentProgress);
+                    prog2.show();
+                }
+
+
+
+            }
+
+            if (progress[0].first == -1) {
+                Toast.makeText(getContext(), "Download failed", Toast.LENGTH_SHORT).show();
+                prog2.dismiss();
+            }
+
+        }
+
+        void doProgress(Pair<Integer, Long> progressDetails) {
+            publishProgress(progressDetails);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+        }
+    }
+
+    void saveToDisk(ResponseBody body, String filename) {
+        try {
+
+            File destinationFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), filename);
+
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+
+            try {
+
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(destinationFile);
+                byte data[] = new byte[4096];
+                int count;
+                int progress = 0;
+                long fileSize = body.contentLength();
+                Log.d(TAG, "File Size=" + fileSize);
+                while ((count = inputStream.read(data)) != -1) {
+                    outputStream.write(data, 0, count);
+                    progress += count;
+                    Pair<Integer, Long> pairs = new Pair<>(progress, fileSize);
+                    downloadZipFileTask.doProgress(pairs);
+                    Log.d(TAG, "Progress: " + progress + "/" + fileSize + " >>>> " + (float) progress / fileSize);
+                }
+
+                outputStream.flush();
+
+                Log.d(TAG, destinationFile.getParent());
+                Pair<Integer, Long> pairs = new Pair<>(100, 100L);
+                downloadZipFileTask.doProgress(pairs);
+                return;
+            } catch (IOException e) {
+                e.printStackTrace();
+                Pair<Integer, Long> pairs = new Pair<>(-1, Long.valueOf(-1));
+                downloadZipFileTask.doProgress(pairs);
+                Log.d(TAG, "Failed to save the file!");
+                return;
+            } finally {
+                if (inputStream != null) inputStream.close();
+                if (outputStream != null) outputStream.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d(TAG, "Failed to save the file!");
+            return;
+        }
+    }
+
+
+
 
     private String getYouTubeId (String youTubeUrl) {
         String pattern = "(?<=youtu.be/|watch\\?v=|/videos/|embed\\/)[^#\\&\\?]*";
@@ -306,7 +476,9 @@ YouTubePlayer youTubePlayer;
 
                     if (item.getFile().length() > 0)
                     {
-                        file.setText(item.getFile());
+                        filename.setText(item.getFilename());
+                        furl = item.getFile();
+                        fname = item.getFilename();
                         file.setVisibility(View.VISIBLE);
                         filelabel.setVisibility(View.VISIBLE);
                     }

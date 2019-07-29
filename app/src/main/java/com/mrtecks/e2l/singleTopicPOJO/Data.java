@@ -46,6 +46,9 @@ public class Data {
     @SerializedName("file")
     @Expose
     private String file;
+    @SerializedName("filename")
+    @Expose
+    private String filename;
 
     public String getId() {
         return id;
@@ -157,5 +160,13 @@ public class Data {
 
     public void setFile(String file) {
         this.file = file;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }

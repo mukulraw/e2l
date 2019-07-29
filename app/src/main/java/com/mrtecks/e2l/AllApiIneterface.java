@@ -12,17 +12,24 @@ import com.mrtecks.e2l.surveyPOJO.surveyBean;
 import com.mrtecks.e2l.topicsPOJO.topicBean;
 
 import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 
 public interface AllApiIneterface {
 
     @NonNull
     @GET("e2l/api/getSchools.php")
     Call<schoolBean> getSchools();
+
+    @Streaming
+    @GET
+    Call<ResponseBody> downloadFileByUrl(@Url String fileUrl);
 
     @NonNull
     @GET("e2l/api/getNoti.php")

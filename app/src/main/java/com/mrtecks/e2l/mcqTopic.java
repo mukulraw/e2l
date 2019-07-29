@@ -1,7 +1,11 @@
 package com.mrtecks.e2l;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.mrtecks.e2l.singleTopicPOJO.Data;
@@ -23,10 +28,16 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import io.github.kexanie.library.MathView;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,7 +48,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class mcqTopic extends Fragment {
 
     MathView question;
-
+    ProgressDialog prog2;
     Button submit;
     ProgressBar progress;
 
@@ -58,11 +69,18 @@ public class mcqTopic extends Fragment {
 
     int position;
 
-    TextView filelabel , videolabel , file;
+    TextView filelabel , videolabel , filename;
+
+    CardView file;
 
     boolean last;
 
     module co;
+
+    String furl = "" , fname;
+
+    DownloadZipFileTask downloadZipFileTask;
+    private static final String TAG = "MainActivity";
 
     public void setData(CustomViewPager pager , String qid , int position , boolean last , String mid , module co)
     {
@@ -79,6 +97,10 @@ public class mcqTopic extends Fragment {
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mcq_layout , container , false);
 
+        prog2 = new ProgressDialog(getContext());
+        prog2.setMessage("Downloading File...");
+        prog2.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        prog2.setIndeterminate(false);
 
         progress = view.findViewById(R.id.progressBar6);
         question = view.findViewById(R.id.textView6);
@@ -93,7 +115,7 @@ public class mcqTopic extends Fragment {
         filelabel = view.findViewById(R.id.textView10);
         videolabel = view.findViewById(R.id.textView12);
         file = view.findViewById(R.id.textView11);
-
+        filename = view.findViewById(R.id.filename);
         check1 = view.findViewById(R.id.opt1);
         check2 = view.findViewById(R.id.opt2);
         check3 = view.findViewById(R.id.opt3);
@@ -280,9 +302,158 @@ public class mcqTopic extends Fragment {
 
         loadData();
 
+        file.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                progress.setVisibility(View.VISIBLE);
+
+                Bean b = (Bean) getActivity().getApplicationContext();
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(b.baseurl)
+                        .addConverterFactory(ScalarsConverterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                Call<ResponseBody> call = cr.downloadFileByUrl(furl);
+
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                        downloadZipFileTask = new DownloadZipFileTask();
+                        downloadZipFileTask.execute(response.body());
+
+
+                        progress.setVisibility(View.GONE);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        progress.setVisibility(View.GONE);
+                    }
+                });
+
+
+            }
+        });
+
 
         return view;
     }
+
+
+    private class DownloadZipFileTask extends AsyncTask<ResponseBody, Pair<Integer, Long>, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(ResponseBody... urls) {
+            //Copy you logic to calculate progress and call
+            saveToDisk(urls[0], fname);
+            return null;
+        }
+
+        protected void onProgressUpdate(Pair<Integer, Long>... progress) {
+
+            Log.d("API123", progress[0].second + " ");
+
+            if (progress[0].second == 100)
+                prog2.dismiss();
+            //Toast.makeText(getContext(), "File downloaded successfully", Toast.LENGTH_SHORT).show();
+
+
+            if (progress[0].second > 0) {
+                int currentProgress = (int) ((double) progress[0].first / (double) progress[0].second * 100);
+
+                if (currentProgress == 100)
+                {
+                    prog2.dismiss();
+                    Toast.makeText(getContext(), "File downloaded successfully", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    prog2.setProgress(currentProgress);
+                    prog2.show();
+                }
+
+
+
+            }
+
+            if (progress[0].first == -1) {
+                Toast.makeText(getContext(), "Download failed", Toast.LENGTH_SHORT).show();
+                prog2.dismiss();
+            }
+
+        }
+
+        void doProgress(Pair<Integer, Long> progressDetails) {
+            publishProgress(progressDetails);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+        }
+    }
+
+    void saveToDisk(ResponseBody body, String filename) {
+        try {
+
+            File destinationFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), filename);
+
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+
+            try {
+
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(destinationFile);
+                byte data[] = new byte[4096];
+                int count;
+                int progress = 0;
+                long fileSize = body.contentLength();
+                Log.d(TAG, "File Size=" + fileSize);
+                while ((count = inputStream.read(data)) != -1) {
+                    outputStream.write(data, 0, count);
+                    progress += count;
+                    Pair<Integer, Long> pairs = new Pair<>(progress, fileSize);
+                    downloadZipFileTask.doProgress(pairs);
+                    Log.d(TAG, "Progress: " + progress + "/" + fileSize + " >>>> " + (float) progress / fileSize);
+                }
+
+                outputStream.flush();
+
+                Log.d(TAG, destinationFile.getParent());
+                Pair<Integer, Long> pairs = new Pair<>(100, 100L);
+                downloadZipFileTask.doProgress(pairs);
+                return;
+            } catch (IOException e) {
+                e.printStackTrace();
+                Pair<Integer, Long> pairs = new Pair<>(-1, Long.valueOf(-1));
+                downloadZipFileTask.doProgress(pairs);
+                Log.d(TAG, "Failed to save the file!");
+                return;
+            } finally {
+                if (inputStream != null) inputStream.close();
+                if (outputStream != null) outputStream.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d(TAG, "Failed to save the file!");
+            return;
+        }
+    }
+
 
     private String getYouTubeId (String youTubeUrl) {
         String pattern = "(?<=youtu.be/|watch\\?v=|/videos/|embed\\/)[^#\\&\\?]*";
@@ -387,7 +558,9 @@ public class mcqTopic extends Fragment {
 
                     if (item.getFile().length() > 0)
                     {
-                        file.setText(item.getFile());
+                        filename.setText(item.getFilename());
+                        furl = item.getFile();
+                        fname = item.getFilename();
                         file.setVisibility(View.VISIBLE);
                         filelabel.setVisibility(View.VISIBLE);
                     }
