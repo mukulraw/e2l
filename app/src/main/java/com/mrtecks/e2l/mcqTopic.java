@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -24,6 +25,8 @@ import androidx.fragment.app.Fragment;
 import com.mrtecks.e2l.singleTopicPOJO.Data;
 import com.mrtecks.e2l.singleTopicPOJO.singleTopicBean;
 import com.mrtecks.e2l.topicsPOJO.topicBean;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
@@ -80,6 +83,9 @@ public class mcqTopic extends Fragment {
     String furl = "" , fname;
 
     DownloadZipFileTask downloadZipFileTask;
+
+    ImageView image;
+
     private static final String TAG = "MainActivity";
 
     public void setData(CustomViewPager pager , String qid , int position , boolean last , String mid , module co)
@@ -103,6 +109,7 @@ public class mcqTopic extends Fragment {
         prog2.setIndeterminate(false);
 
         progress = view.findViewById(R.id.progressBar6);
+        image = view.findViewById(R.id.image);
         question = view.findViewById(R.id.textView6);
 
         submit = view.findViewById(R.id.button3);
@@ -377,7 +384,7 @@ public class mcqTopic extends Fragment {
                 if (currentProgress == 100)
                 {
                     prog2.dismiss();
-                    Toast.makeText(getContext(), "File downloaded successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "File downloaded successfully in Downloads", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -526,6 +533,10 @@ public class mcqTopic extends Fragment {
                             "MathJax.Hub.Config({\n" +
                                     "  tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']]}\n" +
                                     "});");
+
+                    DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+                    ImageLoader loader = ImageLoader.getInstance();
+                    loader.displayImage(item.getImage() , image , options);
 
 
                     text1.setText(item.getOption1());

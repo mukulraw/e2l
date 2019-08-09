@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ import androidx.fragment.app.Fragment;
 import com.mrtecks.e2l.regiterPOJO.registerBean;
 import com.mrtecks.e2l.singleTopicPOJO.Data;
 import com.mrtecks.e2l.singleTopicPOJO.singleTopicBean;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
@@ -88,6 +90,7 @@ YouTubePlayer youTubePlayer;
 
     String furl = "" , fname;
 
+    ImageView image;
 
     DownloadZipFileTask downloadZipFileTask;
     private static final String TAG = "MainActivity";
@@ -111,7 +114,7 @@ YouTubePlayer youTubePlayer;
 
 
         toast = Toast.makeText(getContext(), null, Toast.LENGTH_SHORT);
-
+        image = view.findViewById(R.id.image);
         prog = new ProgressDialog(getContext());
         prog.setMessage("Uploading File...");
         prog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -325,7 +328,7 @@ YouTubePlayer youTubePlayer;
                 if (currentProgress == 100)
                 {
                     prog2.dismiss();
-                    Toast.makeText(getContext(), "File downloaded successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "File downloaded successfully in Downloads", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -448,6 +451,10 @@ YouTubePlayer youTubePlayer;
                                     "  tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']]}\n" +
                                     "});");
 
+
+                    DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+                    ImageLoader loader = ImageLoader.getInstance();
+                    loader.displayImage(item.getImage() , image , options);
 
 
                     question.setText(item.getQuestion());
