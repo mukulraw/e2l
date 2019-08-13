@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -109,6 +110,7 @@ public class ProgressReport extends AppCompatActivity {
                 data.setValueTextSize(11f);
                 data.setValueTextColor(Color.WHITE);
                 chart.setData(data);
+
 
                 // undo all highlights
                 chart.highlightValues(null);
