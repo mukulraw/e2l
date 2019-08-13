@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="#f2f2f2" />
+        android:src="@drawable/bak2" />
 
     <TextView
         android:id="@+id/textView"
@@ -24,7 +24,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:text="SIGN IN"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +36,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
         android:text="PHONE"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -75,7 +75,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="PASSWORD"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText" />
 
