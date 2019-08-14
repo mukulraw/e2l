@@ -1,11 +1,22 @@
 package com.mrtecks.e2l;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -15,8 +26,10 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,6 +48,9 @@ public class ProgressReport extends AppCompatActivity {
 
     PieChart chart;
 
+    TabLayout tabs;
+    ViewPager pager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +66,8 @@ public class ProgressReport extends AppCompatActivity {
         total = findViewById(R.id.textView23);
         module = findViewById(R.id.textView19);
         chart = findViewById(R.id.view3);
+        tabs = findViewById(R.id.tabLayout3);
+        pager = findViewById(R.id.pager);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -64,6 +82,9 @@ public class ProgressReport extends AppCompatActivity {
 
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setTitle("Progress Report");
+
+        tabs.addTab(tabs.newTab().setText("STRONG TOPICS"));
+        tabs.addTab(tabs.newTab().setText("WEAK TOPICS"));
 
         module.setText("Module: " + name);
 
@@ -117,6 +138,15 @@ public class ProgressReport extends AppCompatActivity {
 
                 chart.invalidate();
 
+                PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager() , response.body().getStrong() , response.body().getWeak());
+                pager.setAdapter(adapter);
+
+                tabs.setupWithViewPager(pager);
+
+                tabs.getTabAt(0).setText("STRONG TOPICS");
+                tabs.getTabAt(1).setText("WEAK TOPICS");
+
+
                 progress.setVisibility(View.GONE);
 
             }
@@ -130,4 +160,136 @@ public class ProgressReport extends AppCompatActivity {
 
 
     }
+
+
+    class PagerAdapter extends FragmentStatePagerAdapter
+    {
+
+        List<Strong> slist = new ArrayList<>();
+        List<Strong> wlist = new ArrayList<>();
+
+        public PagerAdapter(FragmentManager fm , List<Strong> slist , List<Strong> wlist) {
+            super(fm);
+            this.slist = slist;
+            this.wlist = wlist;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position == 0)
+            {
+                str frag = new str();
+                frag.setData(slist);
+                return frag;
+            }
+            else
+            {
+                str frag = new str();
+                frag.setData(wlist);
+                return frag;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+    }
+
+    public static class str extends Fragment
+    {
+
+        RecyclerView grid;
+        ProgressBar progress;
+        GridLayoutManager manager;
+        ProgressAdapter adapter;
+        List<Strong> slist = new ArrayList<>();
+        TextView ttt;
+
+        void setData(List<Strong> slist)
+        {
+            this.slist = slist;
+        }
+
+        @Nullable
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.progress_layout , container , false);
+
+            grid = view.findViewById(R.id.grid);
+            progress = view.findViewById(R.id.progressBar7);
+            ttt = view.findViewById(R.id.textView14);
+            manager = new GridLayoutManager(getContext() , 1);
+            adapter = new ProgressAdapter(getContext() , slist);
+
+            ttt.setVisibility(View.GONE);
+
+            grid.setAdapter(adapter);
+            grid.setLayoutManager(manager);
+
+            return view;
+        }
+
+        class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.ViewHolder>
+        {
+            List<Strong> list = new ArrayList<>();
+            Context context;
+            boolean isstart = false;
+
+            public ProgressAdapter(Context context , List<Strong> list)
+            {
+                this.context = context;
+                this.list = list;
+            }
+
+            public void setData(List<Strong> list , boolean isstart)
+            {
+                this.list = list;
+                this.isstart = isstart;
+                notifyDataSetChanged();
+            }
+
+            @NonNull
+            @Override
+            public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View view = inflater.inflate(R.layout.progress_module_list , parent , false);
+                return new ViewHolder(view);
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+
+                final Strong item = list.get(position);
+
+                holder.status.setVisibility(View.GONE);
+
+                holder.module.setText(item.getTopic());
+
+
+
+            }
+
+            @Override
+            public int getItemCount() {
+                return list.size();
+            }
+
+            class ViewHolder extends RecyclerView.ViewHolder
+            {
+
+                TextView module , status;
+
+                ViewHolder(@NonNull View itemView) {
+                    super(itemView);
+
+                    module = itemView.findViewById(R.id.textView16);
+                    status = itemView.findViewById(R.id.textView20);
+
+                }
+            }
+        }
+
+    }
+
 }
