@@ -14,6 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,7 +140,7 @@ public class ProgressReport extends AppCompatActivity {
 
                 chart.invalidate();
 
-                PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager() , response.body().getStrong() , response.body().getWeak());
+                PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager() , response.body().getStrong() , response.body().getWeak() , response.body().getMarks());
                 pager.setAdapter(adapter);
 
                 tabs.setupWithViewPager(pager);
@@ -169,11 +170,13 @@ public class ProgressReport extends AppCompatActivity {
 
         List<Strong> slist = new ArrayList<>();
         List<Strong> wlist = new ArrayList<>();
+        List<Mark> mlist = new ArrayList<>();
 
-        PagerAdapter(FragmentManager fm, List<Strong> slist, List<Strong> wlist) {
+        PagerAdapter(FragmentManager fm, List<Strong> slist, List<Strong> wlist , List<Mark> mlist) {
             super(fm);
             this.slist = slist;
             this.wlist = wlist;
+            this.mlist = mlist;
         }
 
         @Override
@@ -192,8 +195,8 @@ public class ProgressReport extends AppCompatActivity {
             }
             else
             {
-                str frag = new str();
-                frag.setData(wlist);
+                maa frag = new maa();
+                frag.setData(mlist);
                 return frag;
             }
         }
@@ -293,6 +296,121 @@ public class ProgressReport extends AppCompatActivity {
 
                     module = itemView.findViewById(R.id.textView16);
                     status = itemView.findViewById(R.id.textView20);
+
+                }
+            }
+        }
+
+    }
+
+    public static class maa extends Fragment
+    {
+
+        RecyclerView grid;
+        ProgressBar progress;
+        GridLayoutManager manager;
+        ProgressAdapter adapter;
+        List<Mark> slist = new ArrayList<>();
+        TextView ttt;
+
+        void setData(List<Mark> slist)
+        {
+            this.slist = slist;
+        }
+
+        @Nullable
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.progress_layout , container , false);
+
+            grid = view.findViewById(R.id.grid);
+            progress = view.findViewById(R.id.progressBar7);
+            ttt = view.findViewById(R.id.textView14);
+            manager = new GridLayoutManager(getContext() , 1);
+            adapter = new ProgressAdapter(getContext() , slist);
+
+            ttt.setVisibility(View.GONE);
+
+            grid.setAdapter(adapter);
+            grid.setLayoutManager(manager);
+
+            return view;
+        }
+
+        class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.ViewHolder>
+        {
+            List<Mark> list = new ArrayList<>();
+            Context context;
+            boolean isstart = false;
+
+            public ProgressAdapter(Context context , List<Mark> list)
+            {
+                this.context = context;
+                this.list = list;
+            }
+
+            public void setData(List<Mark> list , boolean isstart)
+            {
+                this.list = list;
+                this.isstart = isstart;
+                notifyDataSetChanged();
+            }
+
+            @NonNull
+            @Override
+            public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View view = inflater.inflate(R.layout.progress_module_list3 , parent , false);
+                return new ViewHolder(view);
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+
+                final Mark item = list.get(position);
+
+                holder.status.setText(Html.fromHtml("<font color=\"black\">Marks - </font>" + item.getMarks()));
+
+                holder.module.setText(item.getTopicName());
+
+                holder.question.setText(Html.fromHtml("<font color=\"black\">Q - </font>" + item.getQuestion()));
+
+
+                if (item.getAtype().equals("TEXT"))
+                {
+                    holder.yans.setText(Html.fromHtml("<font color=\"black\">Your Ans. - </font>" + item.getYans()));
+                    holder.rans.setText(Html.fromHtml("<font color=\"black\">Correct Ans. - </font>" + item.getRans()));
+
+                    holder.yans.setVisibility(View.VISIBLE);
+                    holder.rans.setVisibility(View.VISIBLE);
+
+                }
+                else
+                {
+                    holder.yans.setVisibility(View.GONE);
+                    holder.rans.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public int getItemCount() {
+                return list.size();
+            }
+
+            class ViewHolder extends RecyclerView.ViewHolder
+            {
+
+                TextView module , status , question , yans , rans;
+
+                ViewHolder(@NonNull View itemView) {
+                    super(itemView);
+
+                    module = itemView.findViewById(R.id.textView16);
+                    status = itemView.findViewById(R.id.textView20);
+                    question = itemView.findViewById(R.id.textView30);
+                    yans = itemView.findViewById(R.id.textView28);
+                    rans = itemView.findViewById(R.id.textView29);
 
                 }
             }

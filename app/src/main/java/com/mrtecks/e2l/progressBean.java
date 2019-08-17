@@ -27,6 +27,9 @@ public class progressBean {
     @SerializedName("weak")
     @Expose
     private List<Strong> weak = null;
+    @SerializedName("marks")
+    @Expose
+    private List<Mark> marks = null;
 
     public String getAttempted() {
         return attempted;
@@ -82,5 +85,13 @@ public class progressBean {
 
     public void setWeak(List<Strong> weak) {
         this.weak = weak;
+    }
+
+    public List<Mark> getMarks() {
+        return marks;
+    }
+
+    public void setMarks(List<Mark> marks) {
+        this.marks = marks;
     }
 }
