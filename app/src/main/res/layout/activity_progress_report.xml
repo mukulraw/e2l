@@ -28,6 +28,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="?attr/actionBarSize"
                     android:background="#FFF8F8F9"
+                    android:paddingBottom="10dp"
                     app:layout_collapseMode="parallax">
 
 
@@ -155,27 +156,12 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:orientation="vertical">
 
-            <ProgressBar
-                android:id="@+id/progressBar8"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:fillViewport="true" />
 
             <androidx.viewpager.widget.ViewPager
@@ -190,6 +176,21 @@
 
         </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/progressBar8"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 

@@ -85,6 +85,7 @@ public class ProgressReport extends AppCompatActivity {
 
         tabs.addTab(tabs.newTab().setText("STRONG TOPICS"));
         tabs.addTab(tabs.newTab().setText("WEAK TOPICS"));
+        tabs.addTab(tabs.newTab().setText("ALL MARKS"));
 
         module.setText("Module: " + name);
 
@@ -145,6 +146,7 @@ public class ProgressReport extends AppCompatActivity {
 
                 tabs.getTabAt(0).setText("STRONG TOPICS");
                 tabs.getTabAt(1).setText("WEAK TOPICS");
+                tabs.getTabAt(2).setText("ALL MARKS");
 
 
                 progress.setVisibility(View.GONE);
@@ -168,7 +170,7 @@ public class ProgressReport extends AppCompatActivity {
         List<Strong> slist = new ArrayList<>();
         List<Strong> wlist = new ArrayList<>();
 
-        public PagerAdapter(FragmentManager fm , List<Strong> slist , List<Strong> wlist) {
+        PagerAdapter(FragmentManager fm, List<Strong> slist, List<Strong> wlist) {
             super(fm);
             this.slist = slist;
             this.wlist = wlist;
@@ -182,6 +184,12 @@ public class ProgressReport extends AppCompatActivity {
                 frag.setData(slist);
                 return frag;
             }
+            else if (position == 1)
+            {
+                str frag = new str();
+                frag.setData(wlist);
+                return frag;
+            }
             else
             {
                 str frag = new str();
@@ -192,7 +200,7 @@ public class ProgressReport extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
     }
 
