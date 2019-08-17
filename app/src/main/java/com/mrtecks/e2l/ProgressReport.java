@@ -253,7 +253,7 @@ public class ProgressReport extends AppCompatActivity {
             @Override
             public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View view = inflater.inflate(R.layout.progress_module_list , parent , false);
+                View view = inflater.inflate(R.layout.progress_module_list2 , parent , false);
                 return new ViewHolder(view);
             }
 
@@ -262,7 +262,7 @@ public class ProgressReport extends AppCompatActivity {
 
                 final Strong item = list.get(position);
 
-                holder.status.setVisibility(View.GONE);
+                holder.status.setText("Marks - " + item.getMarks());
 
                 holder.module.setText(item.getTopic());
 

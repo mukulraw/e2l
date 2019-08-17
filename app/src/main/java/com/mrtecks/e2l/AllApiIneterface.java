@@ -24,7 +24,7 @@ import retrofit2.http.Url;
 public interface AllApiIneterface {
 
     @NonNull
-    @GET("e2l/api/getSchools.php")
+    @GET("api/getSchools.php")
     Call<schoolBean> getSchools();
 
     @Streaming
@@ -32,18 +32,18 @@ public interface AllApiIneterface {
     Call<ResponseBody> downloadFileByUrl(@Url String fileUrl);
 
     @NonNull
-    @GET("e2l/api/getNoti.php")
+    @GET("api/getNoti.php")
     Call<notiBean> getNoti();
 
     @NonNull
     @Multipart
-    @POST("e2l/api/getClasses.php")
+    @POST("api/getClasses.php")
     Call<classBean> getClasses(
             @Part("school_id") @NonNull String school_id
     );
 
     @Multipart
-    @POST("e2l/api/register.php")
+    @POST("api/register.php")
     Call<registerBean> register(
             @Part("name") String name,
             @Part("contact") String contact,
@@ -55,7 +55,7 @@ public interface AllApiIneterface {
     );
 
     @Multipart
-    @POST("e2l/api/updateProfile.php")
+    @POST("api/updateProfile.php")
     Call<registerBean> updateProfile(
             @Part("name") String name,
             @Part("rollno") String rollno,
@@ -64,21 +64,21 @@ public interface AllApiIneterface {
     );
 
     @Multipart
-    @POST("e2l/api/login.php")
+    @POST("api/login.php")
     Call<registerBean> login(
             @Part("contact") String contact,
             @Part("password") String password
     );
 
     @Multipart
-    @POST("e2l/api/getReport.php")
+    @POST("api/getReport.php")
     Call<progressBean> getReport(
             @Part("mid") String mid,
             @Part("user_id") String user_id
     );
 
     @Multipart
-    @POST("e2l/api/getModules.php")
+    @POST("api/getModules.php")
     Call<moduleBean> getModules(
             @Part("school_id") String school_id,
             @Part("class") String classid,
@@ -86,21 +86,21 @@ public interface AllApiIneterface {
     );
 
     @Multipart
-    @POST("e2l/api/getTopics.php")
+    @POST("api/getTopics.php")
     Call<topicBean> getTopics(
             @Part("module") String module,
             @Part("user_id") String user_id
     );
 
     @Multipart
-    @POST("e2l/api/getTopicById.php")
+    @POST("api/getTopicById.php")
     Call<singleTopicBean> getTopicById(
             @Part("qid") String qid,
             @Part("user_id") String user_id
     );
 
     @Multipart
-    @POST("e2l/api/submitMCQ.php")
+    @POST("api/submitMCQ.php")
     Call<topicBean> submitMCQ(
             @Part("user_id") String user_id,
             @Part("qid") String qid,
@@ -109,7 +109,7 @@ public interface AllApiIneterface {
     );
 
     @Multipart
-    @POST("e2l/api/submitMCQmodule.php")
+    @POST("api/submitMCQmodule.php")
     Call<topicBean> submitMCQmodule(
             @Part("user_id") String user_id,
             @Part("qid") String qid,
@@ -120,11 +120,11 @@ public interface AllApiIneterface {
     );
 
     @NonNull
-    @GET("e2l/api/getSurvey.php")
+    @GET("api/getSurvey.php")
     Call<surveyBean> getSurvey();
 
     @Multipart
-    @POST("e2l/api/submit_survey.php")
+    @POST("api/submit_survey.php")
     Call<registerBean> submitSurvey(
             @Part("user_id") String user_id,
             @Part("qid") String qid,
@@ -132,7 +132,7 @@ public interface AllApiIneterface {
     );
 
     @Multipart
-    @POST("e2l/api/submitFile.php")
+    @POST("api/submitFile.php")
     Call<registerBean> submitFile(
             @Part("user_id") String user_id,
             @Part("qid") String qid,
@@ -141,7 +141,7 @@ public interface AllApiIneterface {
     );
 
     @Multipart
-    @POST("e2l/api/submitFilemodule.php")
+    @POST("api/submitFilemodule.php")
     Call<registerBean> submitFilemodule(
             @Part("user_id") String user_id,
             @Part("qid") String qid,

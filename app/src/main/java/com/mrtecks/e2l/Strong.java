@@ -8,11 +8,23 @@ public class Strong {
     @Expose
     private String topic;
 
+    @SerializedName("marks")
+    @Expose
+    private String marks;
+
     public String getTopic() {
         return topic;
     }
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    public String getMarks() {
+        return marks;
+    }
+
+    public void setMarks(String marks) {
+        this.marks = marks;
     }
 }
