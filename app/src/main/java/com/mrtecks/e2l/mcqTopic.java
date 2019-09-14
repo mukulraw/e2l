@@ -86,6 +86,8 @@ public class mcqTopic extends Fragment {
 
     ImageView image;
 
+    TextView mark;
+
     private static final String TAG = "MainActivity";
 
     public void setData(CustomViewPager pager , String qid , int position , boolean last , String mid , module co)
@@ -111,6 +113,7 @@ public class mcqTopic extends Fragment {
         progress = view.findViewById(R.id.progressBar6);
         image = view.findViewById(R.id.image);
         question = view.findViewById(R.id.textView6);
+        mark = view.findViewById(R.id.mark);
 
         submit = view.findViewById(R.id.button3);
         player = view.findViewById(R.id.youTubePlayerView);
@@ -566,6 +569,7 @@ public class mcqTopic extends Fragment {
                     }
 
 
+                    mark.setText(item.getLevel() + " - " + item.getMark() + " Mark");
 
                     if (item.getFile().length() > 0)
                     {

@@ -375,6 +375,7 @@ public class ProgressReport extends AppCompatActivity {
 
                 holder.question.setText(Html.fromHtml("<font color=\"black\">Q - </font>" + item.getQuestion()));
 
+                holder.mark.setText(item.getType() + " - " + item.getMark() + " Mark");
 
                 if (item.getAtype().equals("TEXT"))
                 {
@@ -401,7 +402,7 @@ public class ProgressReport extends AppCompatActivity {
             class ViewHolder extends RecyclerView.ViewHolder
             {
 
-                TextView module , status , question , yans , rans;
+                TextView module , status , question , yans , rans , mark;
 
                 ViewHolder(@NonNull View itemView) {
                     super(itemView);
@@ -411,6 +412,7 @@ public class ProgressReport extends AppCompatActivity {
                     question = itemView.findViewById(R.id.textView30);
                     yans = itemView.findViewById(R.id.textView28);
                     rans = itemView.findViewById(R.id.textView29);
+                    mark = itemView.findViewById(R.id.textView31);
 
                 }
             }

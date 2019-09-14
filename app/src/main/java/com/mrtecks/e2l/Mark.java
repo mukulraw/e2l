@@ -23,6 +23,12 @@ public class Mark {
     @SerializedName("atype")
     @Expose
     private String atype;
+    @SerializedName("level")
+    @Expose
+    private String type;
+    @SerializedName("mark")
+    @Expose
+    private String mark;
 
     public String getTopicName() {
         return topicName;
@@ -72,5 +78,20 @@ public class Mark {
         this.atype = atype;
     }
 
+    public String getMark() {
+        return mark;
+    }
 
+
+    public String getType() {
+        return type;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

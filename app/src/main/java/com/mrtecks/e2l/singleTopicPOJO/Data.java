@@ -52,7 +52,12 @@ public class Data {
     @SerializedName("image")
     @Expose
     private String image;
-
+    @SerializedName("level")
+    @Expose
+    private String level;
+    @SerializedName("mark")
+    @Expose
+    private String mark;
 
     public String getId() {
         return id;
@@ -180,5 +185,21 @@ public class Data {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
     }
 }

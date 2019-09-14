@@ -94,7 +94,7 @@ YouTubePlayer youTubePlayer;
 
     DownloadZipFileTask downloadZipFileTask;
     private static final String TAG = "MainActivity";
-
+    TextView mark;
     public void setData(CustomViewPager pager , String qid , int position , boolean last , String mid , module co)
     {
         this.pager = pager;
@@ -126,7 +126,7 @@ YouTubePlayer youTubePlayer;
         prog2.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         prog2.setIndeterminate(false);
 
-
+        mark = view.findViewById(R.id.mark);
         question = view.findViewById(R.id.textView6);
         progress = view.findViewById(R.id.progressBar6);
         submit = view.findViewById(R.id.button3);
@@ -480,6 +480,8 @@ YouTubePlayer youTubePlayer;
                         player.setVisibility(View.GONE);
                         videolabel.setVisibility(View.GONE);
                     }
+
+                    mark.setText(item.getLevel() + " - " + item.getMark() + " Mark");
 
                     if (item.getFile().length() > 0)
                     {
