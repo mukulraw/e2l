@@ -481,7 +481,7 @@ YouTubePlayer youTubePlayer;
                         videolabel.setVisibility(View.GONE);
                     }
 
-                    mark.setText(item.getLevel() + " - " + item.getMark() + " Mark");
+                    mark.setText(item.getMark() + " Mark");
 
                     if (item.getFile().length() > 0)
                     {

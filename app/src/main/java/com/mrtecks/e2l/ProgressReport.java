@@ -375,7 +375,7 @@ public class ProgressReport extends AppCompatActivity {
 
                 holder.question.setText(Html.fromHtml("<font color=\"black\">Q - </font>" + item.getQuestion()));
 
-                holder.mark.setText(item.getType() + " - " + item.getMark() + " Mark");
+                holder.mark.setText(item.getMark() + " Mark");
 
                 if (item.getAtype().equals("TEXT"))
                 {
