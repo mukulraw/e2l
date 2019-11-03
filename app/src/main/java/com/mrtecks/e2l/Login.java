@@ -57,7 +57,7 @@ public class Login extends AppCompatActivity {
                 String pa = password.getText().toString();
 
 
-                if (ph.length() == 10)
+                if (ph.length() > 0)
                 {
 
                     if (pa.length() > 0)
@@ -147,7 +147,7 @@ public class Login extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(Login.this, "Invlid phone", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Invalid username", Toast.LENGTH_SHORT).show();
                 }
 
 

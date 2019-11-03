@@ -241,7 +241,7 @@ public class Signup extends AppCompatActivity {
                     }
                     else
                     {
-                        Toast.makeText(Signup.this, "Invalid phone", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Signup.this, "Invalid username", Toast.LENGTH_SHORT).show();
                     }
                 }else
                 {

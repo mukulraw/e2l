@@ -9,16 +9,17 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name="com.mrtecks.e2l.Bean"
+        android:name=".Bean"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ProgressReport"/>
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".GraphReport"></activity>
+        <activity android:name=".ProgressReport" />
         <activity android:name=".Notification" />
         <activity
             android:name=".WEb"

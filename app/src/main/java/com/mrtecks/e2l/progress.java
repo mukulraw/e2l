@@ -174,7 +174,7 @@ adapter = new ProgressAdapter(getContext() , list);
 
                     if (holder.status.getText().toString().toLowerCase().equals("completed"))
                     {
-                        Intent intent = new Intent(context , ProgressReport.class);
+                        Intent intent = new Intent(context , GraphReport.class);
                         intent.putExtra("mid" , item.getId());
                         intent.putExtra("name" , item.getModuleName());
                         startActivity(intent);
